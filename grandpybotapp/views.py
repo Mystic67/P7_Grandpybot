@@ -19,3 +19,8 @@ def search():
     if request.method == 'POST':
         searchText = request.args.get('search')
     return render_template('index.html', text=searchText)
+
+
+
+if __name__ == "__main__":
+    app.run()

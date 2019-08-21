@@ -12,6 +12,7 @@ pytest = "*"
 flask-sqlalchemy = "*"
 gunicorn = "*"
 nltk = "*"
+requests = "*"
 
 [requires]
 python_version = "3.7"

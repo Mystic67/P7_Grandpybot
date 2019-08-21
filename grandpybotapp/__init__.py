@@ -5,3 +5,4 @@ import os
 from flask import Flask
 
 from .views import app
+app.config.from_object('config')
