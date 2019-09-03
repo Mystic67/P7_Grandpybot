@@ -16,6 +16,7 @@ function displayGoogleMapsElt(location){
     myMap = initMap(location);
     google.maps.event.addDomListener(window, "load", myMap);
     mapId++;
+    googleMapsElt.scrollIntoView();
 }
 
 //################## function to init google maps ##############################
@@ -131,7 +132,8 @@ function displayChatBubbleElt(typeBubble = "q", textBubble, scroll){
     row.appendChild(chatBubbleElt);
     chatContentElt.appendChild(row);
     if (scroll == true){
-        scrollToLastMessage();
+        chatBubbleElt.scrollIntoView();
+        //scrollToLastMessage()
     }
 }
 
@@ -209,18 +211,18 @@ function traitementResponse(dataResponse){
 
     //################ Display the response bubbles ############################
     if (mapsStatus == "OK"){
-        displayChatBubbleElt('a',mapsBotMessage + "   " + adress);
+        displayChatBubbleElt('a',mapsBotMessage + "   " + adress, true);
         setTimeout(function(){ displayGoogleMapsElt(mapLocation) } ,3000);
-        setTimeout(function(){ displayChatBubbleElt('a',wikiBotMessage,true)} ,5000);
+        setTimeout(function(){ displayChatBubbleElt('a', wikiBotMessage, true)} ,5000);
         if (wikiStatus == "OK"){
-            setTimeout(function(){ displayChatBubbleElt('a',wikiText)} ,10000);
+            setTimeout(function(){ displayChatBubbleElt('a', wikiText, true)} ,10000);
         }
     }
     else{
         displayChatBubbleElt('a',mapsBotMessage);
-        setTimeout(function(){ displayChatBubbleElt('a',wikiBotMessage)} ,5000);
+        setTimeout(function(){ displayChatBubbleElt('a', wikiBotMessage,true)} ,5000);
         if (wikiStatus == "OK"){
-            setTimeout(function(){ displayChatBubbleElt('a',wikiText)} ,10000);
+            setTimeout(function(){ displayChatBubbleElt('a', wikiText, true)} ,10000);
         }
     }
 
