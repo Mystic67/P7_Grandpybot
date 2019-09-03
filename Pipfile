@@ -13,6 +13,8 @@ flask-sqlalchemy = "*"
 gunicorn = "*"
 nltk = "*"
 requests = "*"
+json = "*"
+simplejson = "*"
 
 [requires]
 python_version = "3.7"
