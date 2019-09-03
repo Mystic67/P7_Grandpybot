@@ -19,7 +19,7 @@
     </head>
     <body>
         <header>
-            <nav class ="navbar navbar-default bg-dark fixed-top">
+            <nav class ="navbar navbar-default bg-custom fixed-top">
                 <div class="container">
                     <span class="col-6 col-md-3 text-center" id="header_image1">
                         <img id="papybot1" class="text-center" src="{{ url_for('static', filename='img/grandpybot2.png') }}" alt="image_papybot"/>
@@ -49,58 +49,12 @@
             type="text/javascript">
         </script>
 
-        <!-- <script>
-            // var lat= 48.874875;
-            // var lng= 2.350498;
-
-            function init_Map(lat, lng){
-                var location = {lat: lat, lng: lng};
-                var map = new google.maps.Map(document.getElementById("map"),{
-                    zoom: 19,
-                    center: location,
-                    zoomControl: true,
-                    zoomControlOptions: {
-                        position: google.maps.ControlPosition.RIGHT_CENTER
-                    }
-                });
-                var marker = new google.maps.Marker({
-                    position: location,
-                    map: map
-                });
-
-            }
-            maMap = init_Map(48.874875,2.350498);
-            google.maps.event.addDomListener(window, "load", maMap);
-        </script> -->
-
-        <!-- <script>
-            var latitude = 48.874875
-            var longitude = 2.350498
-            function initMap(latitude,longitude){
-                var location = {lat: 48.874875, lng: 2.350498};
-                var map = new google.maps.Map(document.getElementById("map"),{
-                    zoom: 19,
-                    center: location,
-                    zoomControl: true,
-                    zoomControlOptions: {
-                        position: google.maps.ControlPosition.RIGHT_CENTER
-                    }
-                });
-                var marker = new google.maps.Marker({
-                    position: location,
-                    map: map
-                });
-
-            }
-        </script> -->
-
         <!-- custom JavaScript File -->
         <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 
         <!-- Custom JavaScript -->
         <script>
             $(function(){
-
                 $(window).on("load", function(){
                     // Ajuste the body padding-top
                     $("body").css("padding-top", $(".navbar").css("height"));
@@ -115,7 +69,6 @@
                 $(window).on("resize", function(){
                     $(this).load()
                 });
-
             });
         </script>
 
