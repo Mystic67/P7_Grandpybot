@@ -34,7 +34,7 @@ Temporary Items
 __pycache__/
 *.py[cod]
 *$py.class
-*cpython.pyc
+*.cpython-37.pyc
 
 # C extensions
 *.so
