@@ -3,6 +3,7 @@ body {
     -moz-opacity:0.8;
     margin: 0;
     overflow-y:hidden;
+    background-image: url("../img/earth.jpg");
 }
 
 div[id^="map"] {
@@ -13,52 +14,57 @@ div[id^="map"] {
 }
 
 .question-bubble, .answer-bubble {
-    border: solid 1px #b2b4b4;
     border-radius: 20px;
     margin-top: 10px;
     margin-bottom: 10px;
     box-shadow: 3px 3px 3px black;
 }
 
-.question-bubble:after {
-    content: "";
-    position: absolute;
-    left: 10px;
-    top: 95%;
-    width: 0px;
-    height: 0px;
-    border-left: 10px solid #aaaaac;
-    border-right: 10px solid transparent;
-    border-top: 10px solid #aaaaac;
-    border-bottom: 10px solid transparent;
-    margin-top: 0px;
-    margin-right: 15px;
-    transform: rotate(10deg);
-
-}
-
-.answer-bubble:after {
+.question-bubble:before {
     content: '';
 	position: absolute;
-	right: 5px;
-	top: 95%;
+	right: -13px;
+	top: 55%;
 	width: 0;
 	height: 0;
-    border-left: 10px solid transparent;
-    border-right: 10px solid #cecfd1;
-    border-top: 10px solid #cecfd1;
-    border-bottom: 10px solid transparent;
+    border-left: 6px solid transparent;
+    border-right: 6px solid #0672e8;
+    border-top: 12px solid #0672e8;
+    border-bottom: 12px solid transparent;
 	margin-top: 0px;
 	margin-right: 0px;
-    transform: rotate(-10deg);
+    transform: rotate(-60deg);
 }
 
+.answer-bubble:before {
+    content: "";
+    position: absolute;
+    left: -13px;
+    top: 0%;
+    width: 0px;
+    height: 0px;
+    border-left: 6px solid #545554;/*#cecfd1;*/
+    border-right: 6px solid transparent;
+    border-top: 12px solid #545554;
+    border-bottom: 12px solid transparent;
+    margin-top: 0px;
+    margin-right: 0px;
+    transform: rotate(110deg);
+
+}
+
+
+
 .question-bubble {
-    background-color: #aaaaac;
+    border: solid 1px #0672e8;
+    background-color: #0672e8;
+    color: white;
 }
 
 .answer-bubble {
-    background-color: #cecfd1;
+    border: solid 1px #545554;
+    background-color: #545554;
+    color: white;
 }
 
 #chat_content {
@@ -76,16 +82,23 @@ div[id^="map"] {
 }
 
 .navbar {
-    color: white;
+    background-color: #232e3d;
     padding: 0;
 }
- .nav_title {
+
+#nav-title {
+    color: #9ca4b3;
     font-style:  bold;
  }
 
+#nav-text {
+    color: #e06c74;
+    font-family: 'cac_champagne-webfont', fantasy, sans-serif;
+}
+
  .btn {
      margin-left: 5px;
-     background-color: #333940;
+     background-color: #232e3d;
      color: white;
  }
 
@@ -95,13 +108,22 @@ div[id^="map"] {
     -webkit-box-shadow: inset 0 1px 1px rgba(51,57,64,.075),0 0 10px rgba(51,57,64,.9);
     box-shadow: inset 0 1px 1px rgba(51,57,64,.075),0 0 10px rgba(51,57,64,.9);
  }
- a {
-     color: #333940;
-     font-weight: bold;
- }
 
-#nav-text {
-    font-family: 'cac_champagne-webfont', fantasy, sans-serif;
+#footer-links {
+    background-color: #232e3d;
+    border-radius: 5px;
+}
+
+#footer-links span {
+    color: #9ca4b3;
+}
+
+a {
+    color: #e06c74;
+    font-weight: bold;
+}
+a:hover {
+    color: #0672e8;
 }
 
 @font-face
