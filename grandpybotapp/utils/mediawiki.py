@@ -40,14 +40,18 @@ class MediaWiki:
     def get_infos(self):
         wikiInfos={}
         self.found_extract_params["pageids"] = self.get_id()
-        if self.found_extract_params["pageids"] != "":
+        try:
             req = requests.get(self.url, self.found_extract_params)
             wikiData = req.json();
             wikiInfos["status"] = "OK"
             wikiInfos["text"]= wikiData["query"]["pages"][str(self.wiki_page_id)]["extract"]
-        else:
+            return wikiInfos
+        except KeyError:
             wikiInfos["status"] = "NOT FOUND"
-        return wikiInfos
+            return wikiInfos
+        except IndexError:
+            wikiInfos["status"] = "NOT FOUND"
+            return wikiInfos
 
     @property
     def infos(self):
