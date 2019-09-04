@@ -94,6 +94,7 @@ div[id^="map"] {
 #nav-text {
     color: #e06c74;
     font-family: 'cac_champagne-webfont', fantasy, sans-serif;
+    font-size: 1.5em;
 }
 
  .btn {
@@ -129,19 +130,19 @@ a:hover {
 @font-face
 {
 	font-family:'cac_champagne-webfont';
-	src: url('../Fonts/cac_champagne-webfont.ttf') format('truetype');
+	src: url('../fonts/cac_champagne-webfont.ttf') format('truetype');
 }
 
 @font-face
 {
 	font-family:'OpenSans-Regular';
-	src: url('../Fonts/OpenSans-Regular.ttf') format('truetype');
+	src: url('../fonts/OpenSans-Regular.ttf') format('truetype');
 }
 
 @font-face
 {
 	font-family:'Lato-Light';
-	src: url('../Fonts/Lato-Light.ttf') format('truetype');
+	src: url('../fonts/Lato-Light.ttf') format('truetype');
 }
 
 @media only screen and (max-width: 765px) {
