@@ -13,7 +13,6 @@ flask-sqlalchemy = "*"
 gunicorn = "*"
 nltk = "*"
 requests = "*"
-json = "*"
 simplejson = "*"
 
 [requires]
