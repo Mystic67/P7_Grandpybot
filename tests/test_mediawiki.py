@@ -43,9 +43,7 @@ def test_get_id_is_ok(monkeypatch):
     # custom class to be the mock return value
     # will override the requests.Response returned from requests.get
     def mock_get_id_get(*url, **params):
-        print(url,params)
-        MockResponse = MockResponseId
-        return MockResponse
+        return MockResponseId
     #patch method "get_place_infos" with "mock_get_id"
     monkeypatch.setattr(requests,'get', mock_get_id_get)
     # "get_id", uses the monkeypatch
@@ -55,16 +53,10 @@ def test_get_infos_is_ok(monkeypatch):
     # custom class to be the mock return value
     # will override the requests.Response returned from requests.get
     def mock_get_infos_get(*url, **params):
-        print(url,params)
-        MockResponse = MockResponseInfos
-        return MockResponse
+        return MockResponseInfos
 
     #patch method "get_place_infos" with "mock_get_id"
     monkeypatch.setattr(requests,'get', mock_get_infos_get)
 
-    #print(params)
     # "get_infos", uses the monkeypatch
-    #assert mediawiki_instance.get_infos() == infosResult
-
-
-    print(mediawiki_instance.get_infos())
+    assert mediawiki_instance.get_infos() == infosResult
