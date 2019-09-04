@@ -3,7 +3,6 @@
 
 import os
 
-SECRET_KEY = "Your_app_secret_Key"
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
-
-GOOGLE_API_KEY = "Your_Google_API_Key_code"
+GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY")
