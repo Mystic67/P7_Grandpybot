@@ -7,12 +7,15 @@ from .utils.googleGeocode import Geocode
 from .utils.mediawiki import MediaWiki
 from .utils.settings import texts_config as constants
 import random
+from collections import deque
 
 app = Flask(__name__)
 
 # To get one variable from config, tape app.config['MY_VARIABLE']
 app.config.from_object('config')
 
+fifoBotGeoResponse = deque([], maxlen = 2)
+fifoBotWikiResponse = deque([], maxlen = 2)
 
 @app.route('/')
 @app.route('/index/')
@@ -35,16 +38,34 @@ def search():
         geocode = Geocode(parsedUserMessage)
         # instance mediawiki with parsed user message
         wiki = MediaWiki(parsedUserMessage)
+        #choice bot message in list for geocode result
+        # use fifo to not have same response
         if geocode.status == "OK":
-            #mapsLocation = geocode.location
-            maps_bot_message = random.choice(constants.GOOGLEFOUND)
+            while 1:
+                maps_bot_message = random.choice(constants.GOOGLEFOUND)
+                if maps_bot_message not in fifoBotGeoResponse:
+                    fifoBotGeoResponse.append(maps_bot_message)
+                    break
         else:
-            maps_bot_message = random.choice(constants.GOOGLENOTFOUND)
-
+            while 1:
+                maps_bot_message = random.choice(constants.GOOGLENOTFOUND)
+                if maps_bot_message not in fifoBotGeoResponse:
+                    fifoBotGeoResponse.append(maps_bot_message)
+                    break
+        #choice bot message in list for wiki result
+        # use fifo to not have same response
         if wiki.status == "OK":
-            wiki_bot_message = random.choice(constants.WIKIFOUND)
+            while 1:
+                wiki_bot_message = random.choice(constants.WIKIFOUND)
+                if maps_bot_message not in fifoBotWikiResponse:
+                    fifoBotWikiResponse.append(maps_bot_message)
+                    break
         else:
-            wiki_bot_message = random.choice(constants.WIKINOTFOUND)
+            while 1:
+                wiki_bot_message = random.choice(constants.WIKINOTFOUND)
+                if maps_bot_message not in fifoBotWikiResponse:
+                    fifoBotWikiResponse.append(maps_bot_message)
+                    break
 
         return jsonify(
                     maps_bot_message = maps_bot_message,
