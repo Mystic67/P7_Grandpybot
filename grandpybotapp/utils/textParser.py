@@ -17,6 +17,6 @@ class TextParser:
                 parsedListText.append(word)
             if "openclassrooms" in word.lower():
                 parsedListText.append("Paris")
-        parsedWords = " ".join(parsedListText)
+        parsedWords = " ".join(parsedListText) + " "
         print(parsedWords)
         return parsedWords
