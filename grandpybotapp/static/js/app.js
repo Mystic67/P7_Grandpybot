@@ -218,12 +218,29 @@ function traitementResponse(dataResponse){
         if (wikiStatus == "OK"){
             setTimeout(function(){ displayChatBubbleElt('a', wikiText, true)} ,10000);
         }
+        else if (wikiStatus == "error 404"){
+            alert(wikiStatus + ": Le service externe Wiki est momentanément inaccessible, veuillez réessayer ultérieurement");
+        }
     }
-    else{
+    else if (mapsStatus == "ZERO_RESULTS"){
         displayChatBubbleElt('a',mapsBotMessage, true);
         setTimeout(function(){ displayChatBubbleElt('a', wikiBotMessage,true)} ,5000);
         if (wikiStatus == "OK"){
             setTimeout(function(){ displayChatBubbleElt('a', wikiText, true)} ,10000);
+        }
+        else if (wikiStatus == "error 404"){
+            alert(wikiStatus + ": Le service externe Wiki est momentanément inaccessible, veuillez réessayer ultérieurement");
+        }
+    }
+    else if (mapsStatus = "Erreur 404"){
+        alert(mapsStatus + ": Le service externe Google est momentanément inaccessible, veuillez réessayer ultérieurement");
+        displayChatBubbleElt('a',mapsBotMessage, true);
+        setTimeout(function(){ displayChatBubbleElt('a', wikiBotMessage,true)} ,5000);
+        if (wikiStatus == "OK"){
+            setTimeout(function(){ displayChatBubbleElt('a', wikiText, true)} ,10000);
+        }
+        else if (wikiStatus == "error 404"){
+            alert(wikiStatus + ": Le service externe Wiki est momentanément inaccessible, veuillez réessayer ultérieurement");
         }
     }
 
