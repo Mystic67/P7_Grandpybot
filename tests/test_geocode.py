@@ -1,12 +1,13 @@
 #! /usr/bin/env python
 # coding: utf-8
 
-from grandpybotapp.utils import googleGeocode
+from grandpybotapp.utils.googleGeocode import Geocode
 import requests
-import json
 import pytest
 
-json_requests_response = {
+#-----------------------Mock request result with status OK ---------------------
+# Response from requests.get json if address was found
+json_requests_response_ok = {
                            "results" : [
                               {
                                  "formatted_address" : "7 Cité Paradis, 75010 Paris, France",
@@ -20,34 +21,107 @@ json_requests_response = {
                               }
                            ],
                            "status" : "OK"
-                        }
 
-result = {
+                        }
+# Result after parsing the response from requests.get json
+result_ok = {
             'status': 'OK',
-            'adress': '7 Cité Paradis, 75010 Paris, France',
+            'address': '7 Cité Paradis, 75010 Paris, France',
             'location': {'lat': 48.8748465, 'lng': 2.3504873},
             'place_id': 'ChIJIZX8lhRu5kcRGwYk8Ce3Vc8'
         }
 
-class MockResponse:
-    @staticmethod
-    def json():
-        return json_requests_response
+#---------------Mock request result with status ZERO_RESULTS -------------------
+# Response from requests.get json if address was found
+json_requests_response_zero_results = {
+                               "results" : [],
+                               "status" : "ZERO_RESULTS"
+                            }
 
-def test_get_geocode_place_infos_is_ok(monkeypatch):
+#---------- Mock request result with status INVALID_REQUEST --------------------
+# Response from requests.get json if address was found
+json_requests_response_invalid_request = {
+                                        "error_message" : "Invalid request. Missing the 'address', 'components', 'latlng' or 'place_id' parameter.",
+                                        "results" : [],
+                                        "status" : "INVALID_REQUEST"
+                                        }
+
+
+# will mock the requests.get methode
+# custom class to be the mock return value
+class MockRequestsGet:
+    '''This class will mock the requests.get method'''
+    def __init__(self, status_code, response):
+        self.status_code = status_code
+        self.response = response
+    def json(self):
+        return self.response
+
+def test_get_geocode_place_infos_parsing_with_status_ok(monkeypatch):
+    ''' This function test if get_geocode_place_infos parsing response is ok if requests response has result'''
+    # instance mock requests.get class with params
+    mockRequestsGet = MockRequestsGet(200, json_requests_response_ok)
+    def mock_response(*url, **params):
+        return mockRequestsGet
+    #patch method get with mock_response
+    monkeypatch.setattr(requests,'get', mock_response)
+    # Test the responses
+    assert Geocode('').get_place_infos() == result_ok
+    assert Geocode('Fake_request').infos == result_ok
+    assert Geocode('Fake_request').status == "OK"
+    assert Geocode('Fake_request').address == '7 Cité Paradis, 75010 Paris, France'
+    assert Geocode('Fake_request').location == {'lat': 48.8748465, 'lng': 2.3504873}
+    assert Geocode('Fake_request').place_id == 'ChIJIZX8lhRu5kcRGwYk8Ce3Vc8'
+    assert Geocode('Fake_request').message_error == "No message Error"
+
+def test_get_geocode_place_infos_parsing_with_status_zero_result(monkeypatch):
+    ''' This function test if get_geocode_place_infos parsing response is ok if requests response has no result'''
+    # instance mock requests.get class with params
+    mockRequestsGet = MockRequestsGet(200, json_requests_response_zero_results)
+    def mock_response(*url, **params):
+        return mockRequestsGet
+    #patch method get with mock_response
+    monkeypatch.setattr(requests,'get', mock_response)
+    # Test the responses
+    assert Geocode('Fake_request').get_place_infos() == {'status': 'ZERO_RESULTS'}
+    assert Geocode('Fake_request').infos == {'status': 'ZERO_RESULTS'}
+    assert Geocode('Fake_request').status == 'ZERO_RESULTS'
+    assert Geocode('Fake_request').address == "'address' not found for this request"
+    assert Geocode('Fake_request').location == "'location' not found for this request"
+    assert Geocode('Fake_request').place_id == "'place_id' not found for this request"
+    assert Geocode('Fake_request').message_error == "No message Error"
+
+def test_get_geocode_place_infos_parsing_with_status_invalid_request(monkeypatch):
+    ''' This function test if get_geocode_place_infos parsing response is ok if request params are not valid'''
     # custom class to be the mock return value
-    # will override the requests.Response returned from requests.get
-    def mock_get(*url, **params):
-        #mockResponse = MockResponse.json()
-        return MockResponse()
-
+    # will mock the requests.get methode
+    mockRequestsGet = MockRequestsGet(200, json_requests_response_invalid_request)
+    def mock_response(*url, **params):
+        return mockRequestsGet
     #patch method "get_place_infos" with "mock_get_place_infos"
-    monkeypatch.setattr(requests,'get', mock_get)
+    monkeypatch.setattr(requests,'get', mock_response)
+    # Test the responses
+    assert Geocode('Fake_request').get_place_infos() == {'status': 'INVALID_REQUEST', 'error_message': "Invalid request. Missing the 'address', 'components', 'latlng' or 'place_id' parameter."}
+    assert Geocode('Fake_request').infos == {'status': 'INVALID_REQUEST', 'error_message': "Invalid request. Missing the 'address', 'components', 'latlng' or 'place_id' parameter."}
+    assert Geocode('Fake_request').status == "INVALID_REQUEST"
+    assert Geocode('Fake_request').address == "'address' not found for this request"
+    assert Geocode('Fake_request').location == "'location' not found for this request"
+    assert Geocode('Fake_request').place_id == "'place_id' not found for this request"
+    assert Geocode('Fake_request').message_error == "Invalid request. Missing the 'address', 'components', 'latlng' or 'place_id' parameter."
 
-    # instance geocode
-    geocode_instance = googleGeocode.Geocode('Fake_place')
-
-    # "get_place_infos", uses the monkeypatch
-    assert geocode_instance.get_place_infos() == result
-
-    #print(geocode_instance.get_place_infos())
+def test_get_geocode_place_infos_parsing_with_error_404(monkeypatch):
+    ''' This function test if get_geocode_place_infos parsing response is ok if URL is not valid or service not accessible '''
+    # will mock the requests.get methode
+    mockRequestsGet = MockRequestsGet(404, 'no_response')
+    def mock_response(*url, **params):
+        return mockRequestsGet
+    #patch method "get_place_infos" with "mock_get_place_infos"
+    monkeypatch.setattr(requests,'get', mock_response)
+    #test responses
+    assert Geocode('Fake_request').get_place_infos() == {'status': 'Erreur 404', 'error_message': 'No connection to service or url false'}
+    assert Geocode('Fake_request').infos == {'status': 'Erreur 404', 'error_message': 'No connection to service or url false'}
+    assert Geocode('Fake_request').status == "Erreur 404"
+    assert Geocode('Fake_request').address == "'address' not found for this request"
+    assert Geocode('Fake_request').location == "'location' not found for this request"
+    assert Geocode('Fake_request').place_id == "'place_id' not found for this request"
+    assert Geocode('Fake_request').message_error == "No connection to service or url false"
