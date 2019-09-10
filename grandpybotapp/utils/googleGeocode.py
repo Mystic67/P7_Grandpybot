@@ -2,7 +2,6 @@
 # coding: utf-8
 
 import requests
-#from settings import config
 import config
 
 class Geocode:
@@ -17,22 +16,27 @@ class Geocode:
         self.get_place_infos()
 
     def get_place_infos(self):
-        req = requests.get(url = self.url, params = self.geocode_params)
-        data = req.json()
         self.placeInfos={}
-        self.placeInfos["status"] = data["status"]
-        if self.placeInfos["status"] == "OK":
-            self.placeInfos["adress"] = data["results"][0]["formatted_address"]
-            self.placeInfos["location"] = data["results"][0]["geometry"]["location"]
-            self.placeInfos["place_id"] = data["results"][0]["place_id"]
-        elif self.placeInfos['status'] == "ZERO_RESULTS":
-            pass
-        else:
-            try:
-                self.placeInfos['error_message'] = data["error_message"]
-            except KeyError:
+        req = requests.get(self.url, self.geocode_params)
+        if req.status_code == 200:
+            data = req.json()
+            self.placeInfos["status"] = data["status"]
+            if self.placeInfos["status"] == "OK":
+                self.placeInfos["address"] = data["results"][0]["formatted_address"]
+                self.placeInfos["location"] = data["results"][0]["geometry"]["location"]
+                self.placeInfos["place_id"] = data["results"][0]["place_id"]
+            elif self.placeInfos['status'] == "ZERO_RESULTS":
                 pass
-        return self.placeInfos
+            else:
+                try:
+                    self.placeInfos['error_message'] = data["error_message"]
+                except KeyError:
+                    pass
+            return self.placeInfos
+        else:
+            self.placeInfos['status'] = "Erreur 404"
+            self.placeInfos['error_message'] = "No connection to service or url false"
+            return self.placeInfos
 
     @property
     def infos(self):
@@ -43,19 +47,19 @@ class Geocode:
         return self.placeInfos["status"]
 
     @property
-    def adress(self):
+    def address(self):
         try:
-            if self.placeInfos["adress"]:
-                return self.placeInfos["adress"]
-        except KeyError:
-            return "'adress' not found for this request"
+            if self.placeInfos["address"]:
+                return self.placeInfos["address"]
+        except:
+            return "'address' not found for this request"
 
     @property
     def location(self):
         try:
             if self.placeInfos["location"]:
                 return self.placeInfos["location"]
-        except KeyError:
+        except:
             return "'location' not found for this request"
 
     @property
@@ -63,7 +67,7 @@ class Geocode:
         try:
             if self.placeInfos["place_id"]:
                 return self.placeInfos["place_id"]
-        except KeyError:
+        except:
             return "'place_id' not found for this request"
 
     @property
@@ -71,13 +75,13 @@ class Geocode:
         try:
             if self.placeInfos["error_message"]:
                 return self.placeInfos["error_message"]
-        except KeyError:
+        except:
             return "No message Error"
 
 # if __name__=="__main__":
 #     geo = Geocode("OpenClassrooms Paris")
 #     print(geo.status)
-#     print(geo.adress)
+#     print(geo.address)
 #     print(geo.location)
 #     print(geo.location['lat'])
 #     print(geo.location['lng'])
