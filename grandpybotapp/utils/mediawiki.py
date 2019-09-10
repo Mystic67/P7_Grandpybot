@@ -22,35 +22,44 @@ class MediaWiki:
                                 "pageterms" : "histoire",
                                 "exintro" : "",
                                 "utf8" : "",
-                                "exlimit" : "1"
+                                "exlimit" : "1",
+                                "pageids" : ""
                                 }
         self.wiki_page_id = ""
 
     def get_id(self):
         req = requests.get(self.url, self.found_id_params)
-        wikiData = req.json()
-        try:
-            self.wiki_page_id = wikiData["query"]["search"][0]["pageid"]
-            return self.wiki_page_id
-        except KeyError:
-            return ""
-        except IndexError:
+        if req.status_code == 200:
+            wikiData = req.json()
+            try:
+                wiki_page_id = wikiData["query"]["search"][0]["pageid"]
+                return wiki_page_id
+            except:
+                return ""
+        else:
             return ""
 
     def get_infos(self):
         wikiInfos={}
         self.found_extract_params["pageids"] = self.get_id()
-        try:
-            req = requests.get(self.url, self.found_extract_params)
+        req = requests.get(self.url, self.found_extract_params)
+        if req.status_code == 200:
             wikiData = req.json();
+            wiki_page_id =[]
             wikiInfos["status"] = "OK"
-            wikiInfos["text"]= wikiData["query"]["pages"][str(self.wiki_page_id)]["extract"]
-            return wikiInfos
-        except KeyError:
-            wikiInfos["status"] = "NOT FOUND"
-            return wikiInfos
-        except IndexError:
-            wikiInfos["status"] = "NOT FOUND"
+            try:
+                for key in wikiData["query"]["pages"]:
+                    wiki_page_id.append(key)
+                wikiInfos["text"]= wikiData["query"]["pages"][wiki_page_id[0]]["extract"]
+                return wikiInfos
+            except KeyError:
+                wikiInfos["status"] = "NOT FOUND"
+                return wikiInfos
+            except IndexError:
+                wikiInfos["status"] = "NOT FOUND"
+                return wikiInfos
+        else:
+            wikiInfos["status"] = "error 404"
             return wikiInfos
 
     @property
