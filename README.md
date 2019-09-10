@@ -1,6 +1,6 @@
 P7 GrandpyBot
 
-############################### Installation ###################################
+############################### Installation ##################################
 
 - Install pipenv on your system
 - copy or clone this repository in your folder
