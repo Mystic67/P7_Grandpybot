@@ -220,7 +220,7 @@ function traitementResponse(dataResponse){
         }
     }
     else{
-        displayChatBubbleElt('a',mapsBotMessage);
+        displayChatBubbleElt('a',mapsBotMessage, true);
         setTimeout(function(){ displayChatBubbleElt('a', wikiBotMessage,true)} ,5000);
         if (wikiStatus == "OK"){
             setTimeout(function(){ displayChatBubbleElt('a', wikiText, true)} ,10000);

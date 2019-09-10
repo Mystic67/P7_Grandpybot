@@ -57,14 +57,14 @@ def search():
         if wiki.status == "OK":
             while 1:
                 wiki_bot_message = random.choice(constants.WIKIFOUND)
-                if maps_bot_message not in fifoBotWikiResponse:
-                    fifoBotWikiResponse.append(maps_bot_message)
+                if wiki_bot_message not in fifoBotWikiResponse:
+                    fifoBotWikiResponse.append(wiki_bot_message)
                     break
         else:
             while 1:
                 wiki_bot_message = random.choice(constants.WIKINOTFOUND)
-                if maps_bot_message not in fifoBotWikiResponse:
-                    fifoBotWikiResponse.append(maps_bot_message)
+                if wiki_bot_message not in fifoBotWikiResponse:
+                    fifoBotWikiResponse.append(wiki_bot_message)
                     break
 
         return jsonify(
