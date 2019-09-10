@@ -18,15 +18,13 @@ class Geocode:
     def get_place_infos(self):
         self.placeInfos={}
         req = requests.get(self.url, self.geocode_params)
-        if req.status_code == 200:
+        if req.status_code >=200 and req.status_code <=400:
             data = req.json()
             self.placeInfos["status"] = data["status"]
             if self.placeInfos["status"] == "OK":
                 self.placeInfos["address"] = data["results"][0]["formatted_address"]
                 self.placeInfos["location"] = data["results"][0]["geometry"]["location"]
                 self.placeInfos["place_id"] = data["results"][0]["place_id"]
-            elif self.placeInfos['status'] == "ZERO_RESULTS":
-                pass
             else:
                 try:
                     self.placeInfos['error_message'] = data["error_message"]
@@ -35,7 +33,7 @@ class Geocode:
             return self.placeInfos
         else:
             self.placeInfos['status'] = "Erreur 404"
-            self.placeInfos['error_message'] = "No connection to service or url false"
+            self.placeInfos['error_message'] = "Page not found or error in URL"
             return self.placeInfos
 
     @property
