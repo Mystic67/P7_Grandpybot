@@ -127,6 +127,11 @@ a:hover {
     color: #0672e8;
 }
 
+strong {
+    color: orange;
+    font: bold underline;
+}
+
 @font-face
 {
 	font-family:'cac_champagne-webfont';

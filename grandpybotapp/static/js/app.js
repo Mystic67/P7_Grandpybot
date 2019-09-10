@@ -122,7 +122,7 @@ function displayChatBubbleElt(typeBubble = "q", textBubble, scroll){
     let row = document.createElement('div');
     row.className="row col-12";
     let chatBubbleElt = document.createElement("p");
-    chatBubbleElt.textContent = textBubble;
+    chatBubbleElt.innerHTML = textBubble;
     if (typeBubble =='q'){
         chatBubbleElt.className = "question-bubble col-6 offset-6 float-left";
     }
@@ -135,6 +135,7 @@ function displayChatBubbleElt(typeBubble = "q", textBubble, scroll){
         chatBubbleElt.scrollIntoView();
         //scrollToLastMessage()
     }
+    playSound();
 }
 
 let searchFormElt = document.querySelector('form');
@@ -198,7 +199,7 @@ function traitementResponse(dataResponse){
     //console.log(mapsStatus);
     mapsBotMessage = dataResponse['maps_bot_message'];
     //console.log(mapsBotMessage);
-    adress = dataResponse['maps_infos']['adress'];
+    address = dataResponse['maps_infos']['address'];
     //console.log(adress);
     mapLocation = dataResponse['maps_infos']['location'];
     //console.log(mapLocation);
@@ -211,7 +212,7 @@ function traitementResponse(dataResponse){
 
     //################ Display the response bubbles ############################
     if (mapsStatus == "OK"){
-        displayChatBubbleElt('a',mapsBotMessage + "   " + adress, true);
+        displayChatBubbleElt('a',mapsBotMessage + " <br><strong> " + address +"</strong>", true);
         setTimeout(function(){ displayGoogleMapsElt(mapLocation) } ,3000);
         setTimeout(function(){ displayChatBubbleElt('a', wikiBotMessage, true)} ,5000);
         if (wikiStatus == "OK"){
@@ -226,6 +227,10 @@ function traitementResponse(dataResponse){
         }
     }
 
+}
+
+function playSound(){
+    new Audio('../static/sound/sound.mp3').play();
 }
 
 //###################### Display the welcome Bubble ###########################
