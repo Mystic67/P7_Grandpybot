@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 # coding: utf-8
-import os
-from flask import Flask, render_template, url_for, request, jsonify
+
+from flask import Flask, render_template, request, jsonify
 from .utils.textParser import TextParser
 from .utils.googleGeocode import Geocode
 from .utils.mediawiki import MediaWiki
@@ -14,21 +14,21 @@ app = Flask(__name__)
 # To get one variable from config, tape app.config['MY_VARIABLE']
 app.config.from_object('config')
 
-fifoBotGeoResponse = deque([], maxlen = 2)
-fifoBotWikiResponse = deque([], maxlen = 2)
+fifoBotGeoResponse = deque([], maxlen=2)
+fifoBotWikiResponse = deque([], maxlen=2)
+
 
 @app.route('/')
 @app.route('/index/')
 def index():
     Google_API_Key = app.config['GOOGLE_API_KEY']
-    return render_template('index.html', API_Key = Google_API_Key)
+    return render_template('index.html', API_Key=Google_API_Key)
+
 
 @app.route('/search', methods=['POST'])
 def search():
 
     if request.method == 'POST':
-        #init sended user message
-        #userMessage = request.form.get('userMessage')
         # Get JSON data from POST
         data = request.get_json()
         userMessage = data[0]['userMessage']
@@ -38,7 +38,7 @@ def search():
         geocode = Geocode(parsedUserMessage)
         # instance mediawiki with parsed user message
         wiki = MediaWiki(parsedUserMessage)
-        #choice bot message in list for geocode result
+        # choice bot message in list for geocode result
         # use fifo to not have same response
         if geocode.status == "OK":
             while 1:
@@ -52,7 +52,7 @@ def search():
                 if maps_bot_message not in fifoBotGeoResponse:
                     fifoBotGeoResponse.append(maps_bot_message)
                     break
-        #choice bot message in list for wiki result
+        # choice bot message in list for wiki result
         # use fifo to not have same response
         if wiki.status == "OK":
             while 1:
@@ -68,12 +68,12 @@ def search():
                     break
 
         return jsonify(
-                    maps_bot_message = maps_bot_message,
-                    maps_infos = geocode.infos,
-                    wiki_bot_message = wiki_bot_message,
-                    wikiInfos = wiki.infos
-                    )
+            maps_bot_message=maps_bot_message,
+            maps_infos=geocode.infos,
+            wiki_bot_message=wiki_bot_message,
+            wikiInfos=wiki.infos
+        )
 
 
-#if __name__ == "__main__":
+# if __name__ == "__main__":
 #    app.run()
