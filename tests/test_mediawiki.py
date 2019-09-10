@@ -98,7 +98,7 @@ def test_get_id_parsing_with_error_404(monkeypatch):
     assert MediaWiki('fake_place').get_id() == ""
 
 def test_get_infos_parsing_with_error_404(monkeypatch):
-    ''' This function test get_infos parsing response if url is not correct or service not accessible'''
+    ''' This function test get_infos parsing response if page not found or error in URL'''
     # instance mock requests.get class with params
     mockRequestsGet = MockRequestsGet(404, {"query":{"search":[]}})
     def mock_response(url, params= None):

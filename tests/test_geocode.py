@@ -92,7 +92,7 @@ def test_get_geocode_place_infos_parsing_with_status_zero_result(monkeypatch):
     assert Geocode('Fake_request').message_error == "No message Error"
 
 def test_get_geocode_place_infos_parsing_with_status_invalid_request(monkeypatch):
-    ''' This function test if get_geocode_place_infos parsing response is ok if request params are not valid'''
+    ''' This function test if get_geocode_place_infos parsing response is ok if error in request params '''
     # custom class to be the mock return value
     # will mock the requests.get methode
     mockRequestsGet = MockRequestsGet(200, json_requests_response_invalid_request)
@@ -110,7 +110,7 @@ def test_get_geocode_place_infos_parsing_with_status_invalid_request(monkeypatch
     assert Geocode('Fake_request').message_error == "Invalid request. Missing the 'address', 'components', 'latlng' or 'place_id' parameter."
 
 def test_get_geocode_place_infos_parsing_with_error_404(monkeypatch):
-    ''' This function test if get_geocode_place_infos parsing response is ok if URL is not valid or service not accessible '''
+    ''' This function test if get_geocode_place_infos parsing response is ok if server return page not found '''
     # will mock the requests.get methode
     mockRequestsGet = MockRequestsGet(404, 'no_response')
     def mock_response(*url, **params):
@@ -118,10 +118,10 @@ def test_get_geocode_place_infos_parsing_with_error_404(monkeypatch):
     #patch method "get_place_infos" with "mock_get_place_infos"
     monkeypatch.setattr(requests,'get', mock_response)
     #test responses
-    assert Geocode('Fake_request').get_place_infos() == {'status': 'Erreur 404', 'error_message': 'No connection to service or url false'}
-    assert Geocode('Fake_request').infos == {'status': 'Erreur 404', 'error_message': 'No connection to service or url false'}
+    assert Geocode('Fake_request').get_place_infos() == {'status': 'Erreur 404', 'error_message': 'Page not found or error in URL'}
+    assert Geocode('Fake_request').infos == {'status': 'Erreur 404', 'error_message': 'Page not found or error in URL'}
     assert Geocode('Fake_request').status == "Erreur 404"
     assert Geocode('Fake_request').address == "'address' not found for this request"
     assert Geocode('Fake_request').location == "'location' not found for this request"
     assert Geocode('Fake_request').place_id == "'place_id' not found for this request"
-    assert Geocode('Fake_request').message_error == "No connection to service or url false"
+    assert Geocode('Fake_request').message_error == "Page not found or error in URL"
