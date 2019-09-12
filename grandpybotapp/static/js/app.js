@@ -253,4 +253,4 @@ function playSound(){
 //###################### Display the welcome Bubble ###########################
 let text = "Salut ! Je suis GrandPy, demande moi, un lieu, une adresse et je te compterai son histoire";
 
-displayChatBubbleElt('a',text);
+displayChatBubbleElt('a',text, true);
