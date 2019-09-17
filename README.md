@@ -17,7 +17,7 @@ P7 GrandpyBot
 - Create environment variables:
     1) create a new file ".env" in root directory (ex: /YOUR_FOLDER/P7_Grandpybot-master)
 
-    2) Create copy following line in your .env with your keys
+    2) Copy the following line in new .env file with your personal keys
         SECRET_KEY = YOUR_APP_KEY
         GOOGLE_API_KEY = YOUR_GOOGLE_API_KEY
 
