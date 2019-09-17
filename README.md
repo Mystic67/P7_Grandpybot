@@ -23,9 +23,9 @@ P7 GrandpyBot
 
     3) Save the .env file.
 
-    PS: To generate YOUR_APP_KEY secret key you can type following command in Python shell:
-        >>> import random, string
-        >>> "".join([random.choice(string.printable) for _ in range(24)])
+    PS: To generate YOUR_APP_KEY secret key you can type following command in Python shell: <br/>
+        >>> import random, string <br/>
+        >>> "".join([random.choice(string.printable) for _ in range(24)]) <br/>
 
 - Start the local server with command:
     python3 run.py
