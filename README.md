@@ -14,6 +14,19 @@ P7 GrandpyBot
 - Install the requirements with command:
     pipenv install -r requirements.txt
 
+- Create environment variables:
+    1) create a new file ".env" in root directory (ex: /YOUR_FOLDER/P7_Grandpybot-master)
+
+    2) Create copy following line in your .env with your keys
+        SECRET_KEY = YOUR_APP_KEY
+        GOOGLE_API_KEY = YOUR_GOOGLE_API_KEY
+
+    3) Save the .env file.
+
+    PS: To generate YOUR_APP_KEY secret key you can type following command in Python shell:
+        >>> import random, string
+        >>> "".join([random.choice(string.printable) for _ in range(24)])
+
 - Start the local server with command:
     python3 run.py
 
