@@ -2,7 +2,7 @@
 # coding: utf-8
 
 from .settings import texts_config as constants
-import nltk
+from nltk import RegexpTokenizer
 
 
 class TextParser:
@@ -11,7 +11,7 @@ class TextParser:
     def parse_text(cls, text):
         stopwords = constants.STOPWORDS + constants.CUSTOM_STOPWORDS
         parsedListText = []
-        tokenizer = nltk.RegexpTokenizer(r'\w+')
+        tokenizer = RegexpTokenizer(r'\w+')
         tokenized_text = tokenizer.tokenize(text)
         for word in tokenized_text:
             if word.lower() not in stopwords:
