@@ -2,7 +2,7 @@
 <html lang="fr">
     <head>
         <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui"/>
         <meta name="description" content= "Grandpy Bot, le papybot qui connais tout les endroits du monde !" />
         <meta name="author" content= "Mystic67" />
         <link rel = "icon" href="{{url_for('static', filename= 'img/grandpybot2.png')}}"/>
@@ -56,6 +56,8 @@
         <script>
             $(function(){
                 $(window).on("load", function(){
+                    //hide addresse bar with phone
+                    window.scrollTo(0, 1);
                     // Ajuste the body padding-top
                     $("body").css("padding-top", $(".navbar").css("height"));
 
